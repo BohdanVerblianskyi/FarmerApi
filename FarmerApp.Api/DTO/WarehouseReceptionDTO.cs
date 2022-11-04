@@ -14,5 +14,5 @@ public class WarehouseReceptionDTO
 
     public float Price { get; set; }
 
-    [DataType("MM.dd.yyyy HH:mm")] public DateTime Date { get; set; }
+     public DateTime Date { get; set; }
 }

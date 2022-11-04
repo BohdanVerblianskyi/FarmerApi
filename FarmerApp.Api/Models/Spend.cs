@@ -18,8 +18,7 @@ public class Spend : IModelWithId
     [Required] public int SpendTypeId { get; set; }
 
     [Required] public float Price { get; set; }
-
-    [Required, DataType("MM.dd.yyyy HH:mm")]
+    
     public DateTime Date;
 
     public WithdrawalFromWarehouse? WithdrawalFromWarehouse { get; set; }

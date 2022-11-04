@@ -8,8 +8,7 @@ public class WarehouseReception : IModelWithId
     public int Id { get; set; }
 
     [MaxLength(50)] public string? Invoice { get; set; }
-
-    [Required, DataType("MM.dd.yyyy HH:mm")]
+    
     public DateTime Date { get; set; }
 
     [Required] public Product Product { get; set; }
