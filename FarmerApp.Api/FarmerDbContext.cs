@@ -26,16 +26,16 @@ public class FarmerDbContext : DbContext
         modelBuilder.Entity<MeasurementUnit>().HasData(new MeasurementUnit { Id = 1, Name = "Кілограми" });
         modelBuilder.Entity<MeasurementUnit>().HasData(new MeasurementUnit { Id = 2, Name = "Літри" });
         modelBuilder.Entity<MeasurementUnit>().HasData(new MeasurementUnit { Id = 3, Name = "Тони" });
-        
+
         modelBuilder.Entity<ProductType>().HasData(new ProductType { Id = 1, Name = "Мінеральні добрива" });
         modelBuilder.Entity<ProductType>().HasData(new ProductType { Id = 2, Name = "Засоби захисту" });
         modelBuilder.Entity<ProductType>().HasData(new ProductType { Id = 3, Name = "Насіння" });
         modelBuilder.Entity<ProductType>().HasData(new ProductType { Id = 4, Name = "Паливо" });
         modelBuilder.Entity<ProductType>().HasData(new ProductType { Id = 5, Name = "інше" });
-      
+
         modelBuilder.Entity<OwnResource>().HasData(new OwnResource { Id = 1, Name = "Вода" });
         modelBuilder.Entity<OwnResource>().HasData(new OwnResource { Id = 2, Name = "Зерно" });
-        
+
         modelBuilder.Entity<SpendType>().HasData(new SpendType { Id = 1, Name = "Продукти із складу" });
         modelBuilder.Entity<SpendType>().HasData(new SpendType { Id = 2, Name = "Власні русурси" });
         modelBuilder.Entity<SpendType>().HasData(new SpendType { Id = 3, Name = "Зарплати працівникам" });
