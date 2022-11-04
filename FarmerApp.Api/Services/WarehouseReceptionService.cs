@@ -1,9 +1,11 @@
-﻿using FarmerApp.Api.Extensions;
+﻿using System.Globalization;
+using FarmerApp.Api.Extensions;
 using FarmerApp.Data;
 using FarmerApp.Data.DTO;
 using FarmerApp.Data.Models;
 using FarmerApp.Data.ViewModels.WarehouseReception;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FarmerApp.Api.Services;
 
@@ -42,6 +44,27 @@ public class WarehouseReceptionService
 
     public async Task<WarehouseReceptionDTO> ProcessingNetProductAsync(WarehouseReceptionWithNewVM reception)
     {
+        var theSameProduct = await _db.Products
+            .Include(p => p.MeasurementUnit)
+            .FirstOrDefaultAsync(p => p.Name == reception.ProductName);
+
+        if (theSameProduct != null)
+        {
+            if (theSameProduct.MeasurementUnit.Id != reception.MeasurementUnitId)
+            {
+                throw new DirectoryNotFoundException();
+            }
+
+            return await ProcessTheSameProductAsync(new WarehouseReceptionWithTheSameVM
+            {
+                Invoice = reception.Invoice,
+                Price = reception.Price,
+                Quantity = reception.Quantity,
+                ProductId = theSameProduct.Id
+            });
+        }
+
+
         var measurementUnit = await _db.MeasurementUnits.FirstOrDefaultAsync(m => m.Id == reception.MeasurementUnitId);
         var newProduct = await _db.Products.AddAsync(new Product
         {
@@ -53,34 +76,40 @@ public class WarehouseReceptionService
 
         await _db.SaveChangesAsync();
 
-        var warehouseReception = await _db.WarehouseReceptions
-            .AddAsync(reception.ToWarehouseReception(newProduct.Entity.Id));
+        await _db.WarehouseReceptions
+            .AddAsync(new WarehouseReception
+            {
+                Date = DateTime.UtcNow,
+                Invoice = reception.Invoice,
+                Price = reception.Price,
+                ProductId = newProduct.Entity.Id,
+                Quantity = reception.Quantity,
+            });
+
+        await _db.SaveChangesAsync();
 
         await _db.Warehouses.AddAsync(new Warehouse
         {
             ProductId = newProduct.Entity.Id,
             Quantity = reception.Quantity
         });
-
         await _db.SaveChangesAsync();
         var result = new WarehouseReceptionDTO
         {
-            Date = DateTime.Now,
+            Date = DateTime.UtcNow,
             Invoice = reception.Invoice,
-            Price = newProduct.Entity.Price,
+            Price = reception.Price,
             Quantity = reception.Quantity,
             ProductName = newProduct.Entity.Name,
             MeasurementUnitsName = measurementUnit.Name
         };
 
-        await _db.SaveChangesAsync();
         return result;
     }
 
     public async Task<WarehouseReceptionDTO> ProcessTheSameProductAsync(WarehouseReceptionWithTheSameVM reception)
     {
-        var currentProduct = await _db
-            .Products.Include(p => p.MeasurementUnit)
+        var currentProduct = await _db.Products.Include(p => p.MeasurementUnit)
             .FirstOrDefaultAsync(p => p.Id == reception.ProductId);
 
         if (currentProduct == null)
@@ -99,6 +128,8 @@ public class WarehouseReceptionService
                 ProductId = reception.ProductId,
                 Quantity = reception.Quantity
             });
+
+            await _db.SaveChangesAsync();
         }
         else
         {
@@ -106,14 +137,21 @@ public class WarehouseReceptionService
             var allPrice = currentProduct.Price + reception.Price;
 
             actualPrice = (float)Math.Round(allPrice / allQuantity, 2);
+
+            currentWarehouse.Quantity = allQuantity;
+
+            _db.Warehouses.Update(currentWarehouse);
+
+            await _db.SaveChangesAsync();
         }
+
 
         currentProduct.Price = actualPrice;
         _db.Products.Update(currentProduct);
 
         var warehouseReception = await _db.WarehouseReceptions.AddAsync(new WarehouseReception
         {
-            Date = DateTime.Now,
+            Date = DateTime.UtcNow,
             Invoice = reception.Invoice,
             Price = actualPrice,
             ProductId = reception.ProductId,
@@ -126,7 +164,7 @@ public class WarehouseReceptionService
         {
             Date = DateTime.Now,
             Invoice = reception.Invoice,
-            Price = actualPrice,
+            Price = reception.Price,
             Quantity = reception.Quantity,
             ProductName = currentProduct.Name,
             MeasurementUnitsName = currentProduct.MeasurementUnit.Name

@@ -18,16 +18,4 @@ public static class WarehouseReceptionExtensions
             MeasurementUnitsName = warehouseReception.Product.MeasurementUnit.Name
         };
     }
-
-    public static WarehouseReception ToWarehouseReception(this WarehouseReceptionWithNewVM reception, int productId)
-    {
-        return new WarehouseReception
-        {
-            Date = DateTime.Now,
-            Invoice = reception.Invoice,
-            Price = reception.Price,
-            ProductId = productId,
-            Quantity = reception.Quantity,
-        };
-    }
 }

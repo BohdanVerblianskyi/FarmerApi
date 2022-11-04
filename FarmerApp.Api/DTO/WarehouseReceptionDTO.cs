@@ -14,5 +14,5 @@ public class WarehouseReceptionDTO
 
     public float Price { get; set; }
 
-     public DateTime Date { get; set; }
+    public DateTime Date { get; set; }
 }

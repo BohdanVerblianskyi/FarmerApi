@@ -6,7 +6,7 @@ namespace FarmerApp.Data.Models;
 public class WithdrawalFromWarehouse : IModelWithId
 {
     public int Id { get; set; }
-    
+
     public DateTime Date { get; set; }
 
     [Required] public Product Product { get; set; }
