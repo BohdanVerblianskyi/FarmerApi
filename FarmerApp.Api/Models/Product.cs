@@ -28,6 +28,6 @@ public class Product : IModelType
 
     public float GetPrice(float quantity)
     {
-        return (float)Math.Round(Price * quantity, 2);
+        return (float)Math.Round(Price * quantity);
     }
 }

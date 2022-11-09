@@ -12,7 +12,8 @@ public static class WarehouseExtensions
             Price = warehouse.Product.GetPrice(warehouse.Quantity),
             Quantity = warehouse.Quantity,
             ProductName = warehouse.Product.Name,
-            MeasurementUnitsName = warehouse.Product.MeasurementUnit.Name
+            MeasurementUnitsName = warehouse.Product.MeasurementUnit.Name,
+            PriceByUnit = warehouse.Product.Price
         };
     }
 }

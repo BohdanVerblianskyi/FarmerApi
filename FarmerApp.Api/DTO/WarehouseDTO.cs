@@ -8,5 +8,7 @@ public class WarehouseDTO
 
     public float Quantity { get; set; }
 
-    public float Price { get; set; }
+    public float Price { get; set; } 
+    
+    public float PriceByUnit { get; set; }
 }
