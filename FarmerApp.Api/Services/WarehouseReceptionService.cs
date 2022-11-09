@@ -134,7 +134,7 @@ public class WarehouseReceptionService
         else
         {
             var allQuantity = currentWarehouse.Quantity + reception.Quantity;
-            var allPrice = currentProduct.Price + reception.Price;
+            var allPrice = (currentProduct.Price * currentWarehouse.Quantity) + reception.Price ;
 
             actualPrice = (float)Math.Round(allPrice / allQuantity, 2);
 
