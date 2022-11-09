@@ -48,7 +48,7 @@ public class SpendService
 
         var withdrawalFromWarehouse = await _db.WithdrawalFromWarehouses.AddAsync(new WithdrawalFromWarehouse
         {
-            Date = DateTime.Now,
+            Date = DateTime.UtcNow,
             Price = product.GetPrice(fromWarehouse.Quantity),
             ProductId = product.Id,
             Quantity = fromWarehouse.Quantity
@@ -62,7 +62,7 @@ public class SpendService
             LocationId = fromWarehouse.LocationId,
             Price = product.GetPrice(fromWarehouse.Quantity),
             SpendTypeId = FromWarehouseSpendType,
-            Date = DateTime.Now
+            Date = DateTime.UtcNow
         });
 
         await _db.SaveChangesAsync();
@@ -77,7 +77,7 @@ public class SpendService
             LocationId = salary.LocationId,
             SpendTypeId = SalarySpendType,
             Price = salary.Price,
-            Date = DateTime.Now
+            Date = DateTime.UtcNow
         });
 
         await _db.SaveChangesAsync();
@@ -92,7 +92,7 @@ public class SpendService
             LocationId = own.LocationId,
             SpendTypeId = OwnSpendType,
             Price = own.Price,
-            Date = DateTime.Now
+            Date = DateTime.UtcNow
         });
 
         await _db.SaveChangesAsync();
