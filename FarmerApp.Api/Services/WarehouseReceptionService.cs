@@ -1,11 +1,9 @@
-﻿using System.Globalization;
-using FarmerApp.Api.Extensions;
+﻿using FarmerApp.Api.Extensions;
 using FarmerApp.Data;
 using FarmerApp.Data.DTO;
 using FarmerApp.Data.Models;
 using FarmerApp.Data.ViewModels.WarehouseReception;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FarmerApp.Api.Services;
 
@@ -63,9 +61,9 @@ public class WarehouseReceptionService
                 ProductId = theSameProduct.Id
             });
         }
-
-
+        
         var measurementUnit = await _db.MeasurementUnits.FirstOrDefaultAsync(m => m.Id == reception.MeasurementUnitId);
+        
         var newProduct = await _db.Products.AddAsync(new Product
         {
             Name = reception.ProductName,
@@ -93,7 +91,9 @@ public class WarehouseReceptionService
             ProductId = newProduct.Entity.Id,
             Quantity = reception.Quantity
         });
+        
         await _db.SaveChangesAsync();
+        
         var result = new WarehouseReceptionDTO
         {
             Date = DateTime.UtcNow,
@@ -153,7 +153,7 @@ public class WarehouseReceptionService
         {
             Date = DateTime.UtcNow,
             Invoice = reception.Invoice,
-            Price = actualPrice,
+            Price = reception.Price,
             ProductId = reception.ProductId,
             Quantity = reception.Quantity,
         });
