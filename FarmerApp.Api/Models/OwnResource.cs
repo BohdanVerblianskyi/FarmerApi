@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FarmerApp.Data.Models.Interfaces;
 
-namespace FarmerApp.Data.Models;
+namespace FarmerApp.Api.Models;
 
 public class OwnResource : IModelType
 {

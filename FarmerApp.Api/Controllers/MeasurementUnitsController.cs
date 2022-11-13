@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using FarmerApp.Api.Models;
 using FarmerApp.Api.Services;
 using FarmerApp.Data.DTO;
 using FarmerApp.Data.Models;

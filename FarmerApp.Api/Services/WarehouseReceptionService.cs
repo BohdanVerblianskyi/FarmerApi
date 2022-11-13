@@ -1,4 +1,5 @@
 ﻿using FarmerApp.Api.Extensions;
+using FarmerApp.Api.Models;
 using FarmerApp.Data;
 using FarmerApp.Data.DTO;
 using FarmerApp.Data.Models;

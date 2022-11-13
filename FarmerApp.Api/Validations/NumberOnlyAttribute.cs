@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FarmerApp.Data.Validations;
+namespace FarmerApp.Api.Validations;
 
 public class NumberOnlyAttribute : ValidationAttribute
 {
@@ -13,10 +13,8 @@ public class NumberOnlyAttribute : ValidationAttribute
                 ErrorMessage = "the must is a number";
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         return base.IsValid(value);

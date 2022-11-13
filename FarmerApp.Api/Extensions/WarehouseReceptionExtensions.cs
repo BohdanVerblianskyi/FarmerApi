@@ -1,4 +1,5 @@
-﻿using FarmerApp.Data.DTO;
+﻿using FarmerApp.Api.Models;
+using FarmerApp.Data.DTO;
 using FarmerApp.Data.Models;
 using FarmerApp.Data.ViewModels.WarehouseReception;
 

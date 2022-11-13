@@ -1,4 +1,5 @@
-﻿using FarmerApp.Data.Models;
+﻿using FarmerApp.Api.Models;
+using FarmerApp.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmerApp.Data;

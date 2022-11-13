@@ -1,7 +1,7 @@
 ﻿using FarmerApp.Api.Extensions;
+using FarmerApp.Api.Models;
 using FarmerApp.Data;
 using FarmerApp.Data.DTO;
-using FarmerApp.Data.Models;
 using FarmerApp.Data.ViewModels.Spending;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +15,6 @@ public class SpendService
     private const string FromWarehouseMessage = "Витрати із складу:";
     private const string SalaryMessage = "Витрати із складу:";
     private const string OwnMessage = "Витрати із складу:";
-
 
     private readonly FarmerDbContext _db;
 
@@ -43,7 +42,7 @@ public class SpendService
 
         if (!warehouse.TrySubtract(fromWarehouse.Quantity))
         {
-            throw new Exception(); //
+            throw new Exception(); //////
         }
 
         var withdrawalFromWarehouse = await _db.WithdrawalFromWarehouses.AddAsync(new WithdrawalFromWarehouse

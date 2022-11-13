@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FarmerApp.Api.Validations;
 using FarmerApp.Data.Validations;
 
 namespace FarmerApp.Data.ViewModels;
