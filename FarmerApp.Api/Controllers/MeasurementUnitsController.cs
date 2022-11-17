@@ -11,12 +11,27 @@ namespace FarmerApp.Api.Controllers;
 public class MeasurementUnitsController : ControllerBase
 {
     private readonly ModelTypeService _modelTypeService;
+    private readonly FarmerDbContext _db;
 
-    public MeasurementUnitsController(ModelTypeService modelTypeService)
+    public MeasurementUnitsController(ModelTypeService modelTypeService, FarmerDbContext db)
     {
         _modelTypeService = modelTypeService;
+        _db = db;
     }
 
+    [HttpGet("Create")]
+    public ActionResult Abb()
+    {
+        _db.MeasurementUnits.Add(new MeasurementUnit
+        {
+            Id = 1,
+            Name = "Test"
+        });
+
+        _db.SaveChanges();
+        return Ok();
+    }
+        
     [HttpGet]
     public async Task<ActionResult<ModelTypeDto>> Get()
     {

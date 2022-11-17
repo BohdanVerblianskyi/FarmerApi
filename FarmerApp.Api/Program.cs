@@ -19,7 +19,7 @@ builder.Services.AddCors(
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<FarmerDbContext>(options =>
-    options.UseNpgsql(connectionString, b =>
+    options.UseSqlServer(connectionString, b =>
         b.MigrationsAssembly("FarmerApp.Api")));
 
 
