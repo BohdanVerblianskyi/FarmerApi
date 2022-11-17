@@ -1,9 +1,7 @@
-﻿using FarmerApp.Api.Extensions;
+﻿using FarmerApp.Api.DTO;
+using FarmerApp.Api.Extensions;
 using FarmerApp.Api.Models;
-using FarmerApp.Data;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.Models;
-using FarmerApp.Data.ViewModels.WarehouseReception;
+using FarmerApp.Api.ViewModels.WarehouseReception;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmerApp.Api.Services;
@@ -17,7 +15,7 @@ public class WarehouseReceptionService
         _db = db;
     }
 
-    public async Task<List<WarehouseReceptionDTO>> GetAllAsync()
+    public async Task<List<WarehouseReceptionDto>> GetAllAsync()
     {
         var warehouseReceptions = await _db.WarehouseReceptions
             .Include(w => w.Product)
@@ -28,7 +26,7 @@ public class WarehouseReceptionService
         return Enumerable.Reverse(warehouseReceptions.Select(w => w.ToWarehouseReceptionDto())).ToList();
     }
 
-    public async Task<List<WarehouseReceptionDTO>> GetAllAsync(int pageNumber, int pageSize)
+    public async Task<List<WarehouseReceptionDto>> GetAllAsync(int pageNumber, int pageSize)
     {
         var warehouseReceptions = await _db.WarehouseReceptions
             .Include(w => w.Product)
@@ -41,7 +39,7 @@ public class WarehouseReceptionService
         return Enumerable.Reverse(warehouseReceptions.Select(w => w.ToWarehouseReceptionDto())).ToList();
     }
 
-    public async Task<WarehouseReceptionDTO> ProcessingNetProductAsync(WarehouseReceptionWithNewVM reception)
+    public async Task<WarehouseReceptionDto> ProcessingNetProductAsync(WarehouseReceptionWithNewVM reception)
     {
         var theSameProduct = await _db.Products
             .Include(p => p.MeasurementUnit)
@@ -75,7 +73,7 @@ public class WarehouseReceptionService
 
         await _db.SaveChangesAsync();
 
-        await _db.WarehouseReceptions
+        var warehouseReception =  await _db.WarehouseReceptions
             .AddAsync(new WarehouseReception
             {
                 Date = DateTime.UtcNow,
@@ -95,8 +93,9 @@ public class WarehouseReceptionService
         
         await _db.SaveChangesAsync();
         
-        var result = new WarehouseReceptionDTO
-        {
+        var result = new WarehouseReceptionDto
+        { 
+            Id = warehouseReception.Entity.Id,
             Date = DateTime.UtcNow,
             Invoice = reception.Invoice,
             Price = reception.Price,
@@ -108,7 +107,7 @@ public class WarehouseReceptionService
         return result;
     }
 
-    public async Task<WarehouseReceptionDTO> ProcessTheSameProductAsync(WarehouseReceptionWithTheSameVM reception)
+    public async Task<WarehouseReceptionDto> ProcessTheSameProductAsync(WarehouseReceptionWithTheSameVM reception)
     {
         var currentProduct = await _db.Products.Include(p => p.MeasurementUnit)
             .FirstOrDefaultAsync(p => p.Id == reception.ProductId);
@@ -161,8 +160,9 @@ public class WarehouseReceptionService
 
         await _db.SaveChangesAsync();
 
-        return new WarehouseReceptionDTO
+        return new WarehouseReceptionDto
         {
+            Id = warehouseReception.Entity.Id,
             Date = DateTime.Now,
             Invoice = reception.Invoice,
             Price = reception.Price,

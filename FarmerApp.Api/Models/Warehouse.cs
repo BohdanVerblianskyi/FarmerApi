@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Data.Models;
-using FarmerApp.Data.Models.Interfaces;
+using FarmerApp.Api.Models.Interfaces;
 
 namespace FarmerApp.Api.Models;
 
@@ -13,11 +12,6 @@ public class Warehouse : IModelWithId
     [Required] public int ProductId { get; set; }
 
     [Required] public float Quantity { get; set; }
-
-    public void Add(float quantity)
-    {
-        Quantity += quantity;
-    }
 
     public bool TrySubtract(float quantity)
     {

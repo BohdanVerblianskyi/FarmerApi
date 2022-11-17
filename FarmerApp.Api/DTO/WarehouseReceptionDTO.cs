@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace FarmerApp.Api.DTO;
 
-namespace FarmerApp.Data.DTO;
-
-public class WarehouseReceptionDTO
+public class WarehouseReceptionDto
 {
+    public int Id { get; set; }
+    
     public string Invoice { get; set; }
 
     public string ProductName { get; set; }

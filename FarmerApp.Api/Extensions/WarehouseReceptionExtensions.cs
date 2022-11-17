@@ -1,15 +1,13 @@
-﻿using FarmerApp.Api.Models;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.Models;
-using FarmerApp.Data.ViewModels.WarehouseReception;
+﻿using FarmerApp.Api.DTO;
+using FarmerApp.Api.Models;
 
 namespace FarmerApp.Api.Extensions;
 
 public static class WarehouseReceptionExtensions
 {
-    public static WarehouseReceptionDTO ToWarehouseReceptionDto(this WarehouseReception warehouseReception)
+    public static WarehouseReceptionDto ToWarehouseReceptionDto(this WarehouseReception warehouseReception)
     {
-        return new WarehouseReceptionDTO
+        return new WarehouseReceptionDto
         {
             Date = warehouseReception.Date,
             Invoice = warehouseReception.Invoice,

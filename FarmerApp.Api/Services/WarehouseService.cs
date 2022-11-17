@@ -1,6 +1,5 @@
-﻿using FarmerApp.Api.Extensions;
-using FarmerApp.Data;
-using FarmerApp.Data.DTO;
+﻿using FarmerApp.Api.DTO;
+using FarmerApp.Api.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmerApp.Api.Services;
@@ -14,7 +13,7 @@ public class WarehouseService
         _db = db;
     }
 
-    public async Task<List<WarehouseDTO>> GetAllAsync()
+    public async Task<List<WarehouseDto>> GetAllAsync()
     {
         var locations = await _db.Warehouses
             .Include(w => w.Product)

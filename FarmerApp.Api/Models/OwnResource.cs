@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Data.Models.Interfaces;
 
 namespace FarmerApp.Api.Models;
 
-public class OwnResource : IModelType
+public class OwnResource
 {
     [Required] public int Id { get; set; }
     [Required, MaxLength(50)] public string Name { get; set; }

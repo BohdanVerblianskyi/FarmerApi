@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Data.Validations;
+using FarmerApp.Api.Validations;
 
-namespace FarmerApp.Data.ViewModels.WarehouseReception;
+namespace FarmerApp.Api.ViewModels.WarehouseReception;
 
 public class WarehouseReceptionWithTheSameVM
 {

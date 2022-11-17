@@ -1,6 +1,6 @@
-﻿namespace FarmerApp.Data.DTO;
+﻿namespace FarmerApp.Api.DTO;
 
-public class ProductDTO
+public class ProductDto
 {
     public int Id { get; set; }
 

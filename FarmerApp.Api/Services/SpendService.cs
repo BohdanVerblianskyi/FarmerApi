@@ -1,8 +1,8 @@
-﻿using FarmerApp.Api.Extensions;
+﻿using AutoMapper;
+using FarmerApp.Api.DTO;
+using FarmerApp.Api.Extensions;
 using FarmerApp.Api.Models;
-using FarmerApp.Data;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.ViewModels.Spending;
+using FarmerApp.Api.ViewModels.Spending;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmerApp.Api.Services;
@@ -13,29 +13,31 @@ public class SpendService
     private const int OwnSpendType = 2;
     private const int SalarySpendType = 3;
     private const string FromWarehouseMessage = "Витрати із складу:";
-    private const string SalaryMessage = "Витрати із складу:";
-    private const string OwnMessage = "Витрати із складу:";
+    private const string SalaryMessage = "Зарплата:";
+    private const string OwnMessage = "Власні витрати:";
 
     private readonly FarmerDbContext _db;
+    private readonly IMapper _mapper;
 
-    public SpendService(FarmerDbContext db)
+    public SpendService(FarmerDbContext db, IMapper mapper)
     {
         _db = db;
+        _mapper = mapper;
     }
 
-    public async Task<LocationSpendDTO> GetLocationSpendAsync(int id)
+    public async Task<LocationSpendDto> GetLocationSpendAsync(int id)
     {
         var spending = await _db.Spends.Where(s => s.LocationId == id).ToListAsync();
-        var result = Enumerable.ToList(spending.Select(s => s.ToSpendDto()));
+        var result = spending.Select(ToSpendDto).ToList();
 
-        return new LocationSpendDTO
+        return new LocationSpendDto
         {
             Spendings = result,
             Sum = result.Sum(s => s.Price)
         };
     }
 
-    public async Task<SpendDTO> AddAsync(SpendFromWarehouseVM fromWarehouse)
+    public async Task<SpendDto> AddAsync(SpendFromWarehouseVM fromWarehouse)
     {
         var product = await _db.Products.FirstOrDefaultAsync(p => p.Id == fromWarehouse.ProductId);
         var warehouse = await _db.Warehouses.FirstOrDefaultAsync(w => w.ProductId == product.Id);
@@ -65,14 +67,14 @@ public class SpendService
         });
 
         await _db.SaveChangesAsync();
-        return spend.Entity.ToSpendDto();
+        return ToSpendDto(spend.Entity);
     }
 
-    public async Task<SpendDTO> AddAsync(SpendSalaryVM salary)
+    public async Task<SpendDto> AddAsync(SpendSalaryVM salary)
     {
         var spend = await _db.Spends.AddAsync(new Spend
         {
-            Description = $"{SalaryMessage}: {salary.Employee}",
+            Description = $"{SalaryMessage} {salary.Employee}",
             LocationId = salary.LocationId,
             SpendTypeId = SalarySpendType,
             Price = salary.Price,
@@ -80,14 +82,14 @@ public class SpendService
         });
 
         await _db.SaveChangesAsync();
-        return spend.Entity.ToSpendDto();
+        return ToSpendDto(spend.Entity);
     }
 
-    public async Task<SpendDTO> AddAsync(SpendOwnVM own)
+    public async Task<SpendDto> AddAsync(SpendOwnVM own)
     {
         var spend = await _db.Spends.AddAsync(new Spend
         {
-            Description = $"{OwnMessage}: {own.OwnResourceName}",
+            Description = $"{OwnMessage} {own.OwnResourceName}",
             LocationId = own.LocationId,
             SpendTypeId = OwnSpendType,
             Price = own.Price,
@@ -95,6 +97,11 @@ public class SpendService
         });
 
         await _db.SaveChangesAsync();
-        return spend.Entity.ToSpendDto();
+        return ToSpendDto(spend.Entity);
+    }
+    
+    private SpendDto ToSpendDto(Spend spend)
+    {
+        return _mapper.Map<SpendDto>(spend);
     }
 }

@@ -1,5 +1,5 @@
+using FarmerApp.Api;
 using FarmerApp.Api.Services;
-using FarmerApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -32,6 +32,7 @@ builder.Services.AddScoped<ProductService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "FarmerApp", Version = "v1" })

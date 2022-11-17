@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FarmerApp.Data.DTO;
+namespace FarmerApp.Api.DTO;
 
-public class WarehouseCreateDTO
+public class WarehouseCreateDto
 {
     [Required] public int ProductId { get; set; }
 

@@ -6,23 +6,23 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FarmerApp.Api.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Location",
+                name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     Size = table.Column<float>(type: "real", nullable: false),
-                    Season = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false)
+                    Seson = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Location", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -31,7 +31,7 @@ namespace FarmerApp.Api.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,7 +111,7 @@ namespace FarmerApp.Api.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Invoice = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Invoice = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     Quantity = table.Column<float>(type: "real", nullable: false),
@@ -186,9 +186,9 @@ namespace FarmerApp.Api.Migrations
                 {
                     table.PrimaryKey("PK_Spends", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Spends_Location_LocationId",
+                        name: "FK_Spends_Locations_LocationId",
                         column: x => x.LocationId,
-                        principalTable: "Location",
+                        principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -301,7 +301,7 @@ namespace FarmerApp.Api.Migrations
                 name: "Warehouses");
 
             migrationBuilder.DropTable(
-                name: "Location");
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "SpendTypes");

@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FarmerApp.Api.Validations;
-using FarmerApp.Data.Validations;
 
-namespace FarmerApp.Data.ViewModels;
+namespace FarmerApp.Api.ViewModels;
 
 public class LocationVM
 {
@@ -10,5 +9,5 @@ public class LocationVM
     [Required, NotZeroAndNotLessZero] public float Size { get; set; }
 
     [Required, MinLength(4), MaxLength(4), NumberOnly]
-    public string Season { get; set; }
+    public string Seson { get; set; }
 }

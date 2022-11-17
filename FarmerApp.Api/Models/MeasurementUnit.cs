@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Data.Models;
-using FarmerApp.Data.Models.Interfaces;
 
 namespace FarmerApp.Api.Models;
 
-public class MeasurementUnit : IModelType
+public class MeasurementUnit 
 {
     public int Id { get; set; }
 
-    [Required, MaxLength(50)] public string Name { get; set; }
+    [Required, MaxLength(30)] public string Name { get; set; }
 
     public List<Product> Products { get; set; }
+    
 }

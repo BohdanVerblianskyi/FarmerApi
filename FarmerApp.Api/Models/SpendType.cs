@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Data.Models.Interfaces;
 
 namespace FarmerApp.Api.Models;
 
-public class SpendType : IModelType
+public class SpendType 
 {
     public int Id { get; set; }
 

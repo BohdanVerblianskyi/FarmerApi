@@ -17,6 +17,6 @@ public class NumberOnlyAttribute : ValidationAttribute
             return true;
         }
 
-        return base.IsValid(value);
+        return true;
     }
 }

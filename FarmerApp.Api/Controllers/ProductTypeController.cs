@@ -1,8 +1,7 @@
 using System.Data.Common;
+using FarmerApp.Api.DTO;
 using FarmerApp.Api.Models;
 using FarmerApp.Api.Services;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmerApp.Api.Controllers;
@@ -19,7 +18,7 @@ public class ProductTypeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ModelTypeDTO>> Get()
+    public async Task<ActionResult<ModelTypeDto>> Get()
     {
         try
         {

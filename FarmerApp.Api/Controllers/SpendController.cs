@@ -1,6 +1,6 @@
-﻿using FarmerApp.Api.Services;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.ViewModels.Spending;
+﻿using FarmerApp.Api.DTO;
+using FarmerApp.Api.Services;
+using FarmerApp.Api.ViewModels.Spending;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmerApp.Api.Controllers;
@@ -56,7 +56,7 @@ public class SpendController : Controller
     }
 
     [HttpGet("location/{id}")]
-    public async Task<ActionResult<LocationSpendDTO>> GetSpending(int id)
+    public async Task<ActionResult<LocationSpendDto>> GetSpending(int id)
     {
         try
         {

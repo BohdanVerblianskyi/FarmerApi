@@ -1,8 +1,8 @@
-﻿namespace FarmerApp.Data.DTO;
+﻿namespace FarmerApp.Api.DTO;
 
-public class LocationSpendDTO
+public class LocationSpendDto
 {
-    public IEnumerable<SpendDTO> Spendings { get; set; }
+    public IEnumerable<SpendDto> Spendings { get; set; }
 
     public float Sum { get; set; }
 }

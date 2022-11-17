@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace FarmerApp.Api.DTO;
 
-namespace FarmerApp.Data.DTO;
-
-public class SpendDTO
+public class SpendDto
 {
     public string Description { get; set; }
 

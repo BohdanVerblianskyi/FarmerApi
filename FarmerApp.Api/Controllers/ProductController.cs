@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
+using FarmerApp.Api.DTO;
 using FarmerApp.Api.Services;
-using FarmerApp.Data.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmerApp.Api.Controllers;
@@ -17,7 +17,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDTO>>> Get()
+    public async Task<ActionResult<IEnumerable<ProductDto>>> Get()
     {
         try
         {
@@ -36,7 +36,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("byType/{id}")]
-    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllByType(int id)
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllByType(int id)
     {
         try
         {
@@ -55,7 +55,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDTO>> Get(int id)
+    public async Task<ActionResult<ProductDto>> Get(int id)
     {
         try
         {

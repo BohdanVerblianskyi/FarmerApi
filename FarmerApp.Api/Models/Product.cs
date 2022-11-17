@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Api.Models;
-using FarmerApp.Data.Models.Interfaces;
+using FarmerApp.Api.Models.Interfaces;
 
-namespace FarmerApp.Data.Models;
+namespace FarmerApp.Api.Models;
 
-public class Product : IModelType
+public class Product 
 {
     public int Id { get; set; }
 

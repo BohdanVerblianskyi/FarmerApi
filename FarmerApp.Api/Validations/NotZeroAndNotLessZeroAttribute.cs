@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FarmerApp.Data.Validations;
+namespace FarmerApp.Api.Validations;
 
 public class NotZeroAndNotLessZeroAttribute : ValidationAttribute
 {

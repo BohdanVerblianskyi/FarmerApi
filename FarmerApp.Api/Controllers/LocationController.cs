@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
+using FarmerApp.Api.DTO;
 using FarmerApp.Api.Services;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.ViewModels;
+using FarmerApp.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmerApp.Api.Controllers;
@@ -32,7 +32,7 @@ public class LocationController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<LocationDTO>>> GetAll()
+    public async Task<ActionResult<IEnumerable<LocationDto>>> GetAll()
     {
         try
         {

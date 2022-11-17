@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
+using FarmerApp.Api.DTO;
 using FarmerApp.Api.Services;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.ViewModels.WarehouseReception;
+using FarmerApp.Api.ViewModels.WarehouseReception;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmerApp.Api.Controllers;
@@ -55,7 +55,7 @@ public class WarehouseReceptionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<WarehouseReceptionDTO>>> Get()
+    public async Task<ActionResult<IEnumerable<WarehouseReceptionDto>>> Get()
     {
         try
         {
@@ -69,7 +69,7 @@ public class WarehouseReceptionController : ControllerBase
     }
 
     [HttpGet("page")]
-    public async Task<ActionResult<IEnumerable<WarehouseReceptionDTO>>> Get(int pageNumber, int pageSize)
+    public async Task<ActionResult<IEnumerable<WarehouseReceptionDto>>> Get(int pageNumber, int pageSize)
     {
         try
         {

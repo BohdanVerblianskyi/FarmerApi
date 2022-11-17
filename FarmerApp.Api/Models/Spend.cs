@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Data.Models;
-using FarmerApp.Data.Models.Interfaces;
+using FarmerApp.Api.Models.Interfaces;
 
 namespace FarmerApp.Api.Models;
 

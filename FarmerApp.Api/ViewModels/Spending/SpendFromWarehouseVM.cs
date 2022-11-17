@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Data.Validations;
+using FarmerApp.Api.Validations;
 
-namespace FarmerApp.Data.ViewModels.Spending;
+namespace FarmerApp.Api.ViewModels.Spending;
 
 public class SpendFromWarehouseVM
 {

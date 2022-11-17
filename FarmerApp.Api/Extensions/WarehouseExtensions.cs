@@ -1,14 +1,13 @@
-﻿using FarmerApp.Api.Models;
-using FarmerApp.Data.DTO;
-using FarmerApp.Data.Models;
+﻿using FarmerApp.Api.DTO;
+using FarmerApp.Api.Models;
 
 namespace FarmerApp.Api.Extensions;
 
 public static class WarehouseExtensions
 {
-    public static WarehouseDTO ToWarehouseDte(this Warehouse warehouse)
+    public static WarehouseDto ToWarehouseDte(this Warehouse warehouse)
     {
-        return new WarehouseDTO
+        return new WarehouseDto
         {
             Price = warehouse.Product.GetPrice(warehouse.Quantity),
             Quantity = warehouse.Quantity,

@@ -1,6 +1,6 @@
 using System.Data.Common;
+using FarmerApp.Api.DTO;
 using FarmerApp.Api.Services;
-using FarmerApp.Data.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmerApp.Api.Controllers;
@@ -17,7 +17,7 @@ public class WarehouseController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<WarehouseDTO>>> Get()
+    public async Task<ActionResult<IEnumerable<WarehouseDto>>> Get()
     {
         try
         {

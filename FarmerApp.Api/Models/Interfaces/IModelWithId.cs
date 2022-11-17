@@ -1,4 +1,4 @@
-namespace FarmerApp.Data.Models.Interfaces;
+namespace FarmerApp.Api.Models.Interfaces;
 
 public interface IModelWithId
 {
