@@ -92,7 +92,7 @@ public class WarehouseReceptionService
         
         await _db.SaveChangesAsync();
         
-        return _mapper.Map<WarehouseReceptionDto>(warehouseReception);
+        return _mapper.Map<WarehouseReceptionDto>(warehouseReception.Entity);
     }
 
     public async Task<WarehouseReceptionDto> ProcessTheSameProductAsync(WarehouseReceptionWithTheSameVM reception)
@@ -147,6 +147,6 @@ public class WarehouseReceptionService
         });
 
         await _db.SaveChangesAsync();
-        return _mapper.Map<WarehouseReceptionDto>(warehouseReception);
+        return _mapper.Map<WarehouseReceptionDto>(warehouseReception.Entity);
     }
 }
