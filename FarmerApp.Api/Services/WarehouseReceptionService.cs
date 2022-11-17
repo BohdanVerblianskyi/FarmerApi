@@ -1,5 +1,5 @@
-﻿using FarmerApp.Api.DTO;
-using FarmerApp.Api.Extensions;
+﻿using AutoMapper;
+using FarmerApp.Api.DTO;
 using FarmerApp.Api.Models;
 using FarmerApp.Api.ViewModels.WarehouseReception;
 using Microsoft.EntityFrameworkCore;
@@ -9,34 +9,32 @@ namespace FarmerApp.Api.Services;
 public class WarehouseReceptionService
 {
     private readonly FarmerDbContext _db;
+    private readonly IMapper _mapper;
 
-    public WarehouseReceptionService(FarmerDbContext db)
+    public WarehouseReceptionService(FarmerDbContext db,IMapper mapper)
     {
         _db = db;
+        _mapper = mapper;
     }
 
     public async Task<List<WarehouseReceptionDto>> GetAllAsync()
     {
         var warehouseReceptions = await _db.WarehouseReceptions
-            .Include(w => w.Product)
-            .ThenInclude(p => p.MeasurementUnit)
             .OrderBy(w => w.Date)
             .ToListAsync();
 
-        return Enumerable.Reverse(warehouseReceptions.Select(w => w.ToWarehouseReceptionDto())).ToList();
+        return warehouseReceptions.Select(w => _mapper.Map<WarehouseReceptionDto>(w)).Reverse().ToList();
     }
 
     public async Task<List<WarehouseReceptionDto>> GetAllAsync(int pageNumber, int pageSize)
     {
         var warehouseReceptions = await _db.WarehouseReceptions
-            .Include(w => w.Product)
-            .ThenInclude(p => p.MeasurementUnit)
             .OrderBy(w => w.Date)
             .Skip(pageNumber * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync();
 
-        return Enumerable.Reverse(warehouseReceptions.Select(w => w.ToWarehouseReceptionDto())).ToList();
+        return warehouseReceptions.Select(w => _mapper.Map<WarehouseReceptionDto>(w)).Reverse().ToList();
     }
 
     public async Task<WarehouseReceptionDto> ProcessingNetProductAsync(WarehouseReceptionWithNewVM reception)
@@ -79,8 +77,9 @@ public class WarehouseReceptionService
                 Date = DateTime.UtcNow,
                 Invoice = reception.Invoice,
                 Price = reception.Price,
-                ProductId = newProduct.Entity.Id,
                 Quantity = reception.Quantity,
+                MeasurementUnitName = measurementUnit.Name,
+                ProductName = newProduct.Entity.Name
             });
 
         await _db.SaveChangesAsync();
@@ -93,18 +92,7 @@ public class WarehouseReceptionService
         
         await _db.SaveChangesAsync();
         
-        var result = new WarehouseReceptionDto
-        { 
-            Id = warehouseReception.Entity.Id,
-            Date = DateTime.UtcNow,
-            Invoice = reception.Invoice,
-            Price = reception.Price,
-            Quantity = reception.Quantity,
-            ProductName = newProduct.Entity.Name,
-            MeasurementUnitsName = measurementUnit.Name
-        };
-
-        return result;
+        return _mapper.Map<WarehouseReceptionDto>(warehouseReception);
     }
 
     public async Task<WarehouseReceptionDto> ProcessTheSameProductAsync(WarehouseReceptionWithTheSameVM reception)
@@ -145,7 +133,6 @@ public class WarehouseReceptionService
             await _db.SaveChangesAsync();
         }
 
-
         currentProduct.Price = actualPrice;
         _db.Products.Update(currentProduct);
 
@@ -154,21 +141,12 @@ public class WarehouseReceptionService
             Date = DateTime.UtcNow,
             Invoice = reception.Invoice,
             Price = reception.Price,
-            ProductId = reception.ProductId,
+            ProductName = currentProduct.Name,
+            MeasurementUnitName = currentProduct.MeasurementUnit.Name,
             Quantity = reception.Quantity,
         });
 
         await _db.SaveChangesAsync();
-
-        return new WarehouseReceptionDto
-        {
-            Id = warehouseReception.Entity.Id,
-            Date = DateTime.Now,
-            Invoice = reception.Invoice,
-            Price = reception.Price,
-            Quantity = reception.Quantity,
-            ProductName = currentProduct.Name,
-            MeasurementUnitsName = currentProduct.MeasurementUnit.Name
-        };
+        return _mapper.Map<WarehouseReceptionDto>(warehouseReception);
     }
 }

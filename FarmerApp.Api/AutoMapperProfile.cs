@@ -24,6 +24,9 @@ public class AutoMapperProfile : Profile
         
         CreateMap<Spend, SpendDto>();
         CreateMap<SpendDto, Spend>();
-        
+
+        CreateMap<WarehouseReceptionDto, WarehouseReception>();
+        CreateMap<WarehouseReception, WarehouseReceptionDto>();
+
     }
 }

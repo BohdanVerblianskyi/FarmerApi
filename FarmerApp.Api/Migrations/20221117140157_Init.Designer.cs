@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FarmerApp.Api.Migrations
 {
     [DbContext(typeof(FarmerDbContext))]
-    [Migration("20221117104138_Init")]
+    [Migration("20221117140157_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -299,11 +299,21 @@ namespace FarmerApp.Api.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<string>("MeasurementUnitName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
@@ -399,13 +409,9 @@ namespace FarmerApp.Api.Migrations
 
             modelBuilder.Entity("FarmerApp.Api.Models.WarehouseReception", b =>
                 {
-                    b.HasOne("FarmerApp.Api.Models.Product", "Product")
+                    b.HasOne("FarmerApp.Api.Models.Product", null)
                         .WithMany("WarehouseReceptions")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("FarmerApp.Api.Models.WithdrawalFromWarehouse", b =>

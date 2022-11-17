@@ -4,7 +4,7 @@ public class WarehouseDto
 {
     public string ProductName { get; set; }
 
-    public string MeasurementUnitsName { get; set; }
+    public string MeasurementUnitName { get; set; }
 
     public float Quantity { get; set; }
 

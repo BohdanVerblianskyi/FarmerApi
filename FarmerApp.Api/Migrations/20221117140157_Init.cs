@@ -113,9 +113,11 @@ namespace FarmerApp.Api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Invoice = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ProductId = table.Column<int>(type: "integer", nullable: false),
                     Quantity = table.Column<float>(type: "real", nullable: false),
-                    Price = table.Column<float>(type: "real", nullable: false)
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    ProductName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    MeasurementUnitName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,8 +126,7 @@ namespace FarmerApp.Api.Migrations
                         name: "FK_WarehouseReceptions_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
