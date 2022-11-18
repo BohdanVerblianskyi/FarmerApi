@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FarmerApp.Api.DTO;
-using FarmerApp.Api.Extensions;
 using FarmerApp.Api.Models;
 
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +43,11 @@ public class ModelTypeService
         if (typeof(TModel) == typeof(Product))
         {
             return await GetAllAsync(_db.Products);
+        } 
+        
+        if (typeof(TModel) == typeof(SpendType))
+        {
+            return await GetAllAsync(_db.SpendTypes);
         }
 
         throw new NotImplementedException();

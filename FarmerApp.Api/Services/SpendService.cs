@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FarmerApp.Api.DTO;
-using FarmerApp.Api.Extensions;
 using FarmerApp.Api.Models;
 using FarmerApp.Api.ViewModels.Spending;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +8,6 @@ namespace FarmerApp.Api.Services;
 
 public class SpendService
 {
-    private const int FromWarehouseSpendType = 1;
-    private const int OwnSpendType = 2;
-    private const int SalarySpendType = 3;
     private const string FromWarehouseMessage = "Витрати із складу:";
     private const string SalaryMessage = "Зарплата:";
     private const string OwnMessage = "Власні витрати:";
@@ -27,13 +23,13 @@ public class SpendService
 
     public async Task<LocationSpendDto> GetLocationSpendAsync(int id)
     {
-        var spending = await _db.Spends.Where(s => s.LocationId == id).ToListAsync();
-        var result = spending.Select(ToSpendDto).ToList();
+        var spends = await _db.Spends.Where(s => s.LocationId == id).ToListAsync();
+        var spendsDto = spends.Select(ToSpendDto).ToList();
 
         return new LocationSpendDto
         {
-            Spendings = result,
-            Sum = result.Sum(s => s.Price)
+            Spendings = spendsDto,
+            Sum = spendsDto.Sum(s => s.Price)
         };
     }
 
@@ -54,6 +50,7 @@ public class SpendService
             ProductId = product.Id,
             Quantity = fromWarehouse.Quantity
         });
+        
         await _db.SaveChangesAsync();
 
         var spend = await _db.Spends.AddAsync(new Spend
@@ -62,7 +59,7 @@ public class SpendService
             Description = $"{FromWarehouseMessage} {product.Name}",
             LocationId = fromWarehouse.LocationId,
             Price = product.GetPrice(fromWarehouse.Quantity),
-            SpendTypeId = FromWarehouseSpendType,
+            SpendTypeId = 1,
             Date = DateTime.UtcNow
         });
 
@@ -76,7 +73,7 @@ public class SpendService
         {
             Description = $"{SalaryMessage} {salary.Employee}",
             LocationId = salary.LocationId,
-            SpendTypeId = SalarySpendType,
+            SpendTypeId = 2,
             Price = salary.Price,
             Date = DateTime.UtcNow
         });
@@ -91,7 +88,7 @@ public class SpendService
         {
             Description = $"{OwnMessage} {own.OwnResourceName}",
             LocationId = own.LocationId,
-            SpendTypeId = OwnSpendType,
+            SpendTypeId = 2,
             Price = own.Price,
             Date = DateTime.UtcNow
         });

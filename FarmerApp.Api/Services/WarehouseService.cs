@@ -1,5 +1,5 @@
 ﻿using FarmerApp.Api.DTO;
-using FarmerApp.Api.Extensions;
+using FarmerApp.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmerApp.Api.Services;
@@ -19,6 +19,18 @@ public class WarehouseService
             .Include(w => w.Product)
             .ThenInclude(p => p.MeasurementUnit)
             .ToListAsync();
-        return Enumerable.ToList(locations.Select(l => l.ToWarehouseDte()));
+        return locations.Select(ToWarehouseDte).ToList();
+    }
+    
+    private WarehouseDto ToWarehouseDte(Warehouse warehouse)
+    {
+        return new WarehouseDto
+        {
+            Price = warehouse.Product.GetPrice(warehouse.Quantity),
+            Quantity = warehouse.Quantity,
+            ProductName = warehouse.Product.Name,
+            MeasurementUnitName = warehouse.Product.MeasurementUnit.Name,
+            PriceByUnit = warehouse.Product.Price
+        };
     }
 }

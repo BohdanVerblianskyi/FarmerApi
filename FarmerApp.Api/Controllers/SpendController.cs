@@ -1,4 +1,6 @@
-﻿using FarmerApp.Api.DTO;
+﻿using System.Data.Common;
+using FarmerApp.Api.DTO;
+using FarmerApp.Api.Models;
 using FarmerApp.Api.Services;
 using FarmerApp.Api.ViewModels.Spending;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +67,36 @@ public class SpendController : Controller
         catch (Exception e)
         {
             BadRequest(e);
+            throw;
+        }
+    }
+}
+
+[ApiController]
+[Route("[controller]")]
+public class SpendTypeController : Controller
+{
+    private readonly ModelTypeService _modelTypeService;
+
+    public SpendTypeController(ModelTypeService modelTypeService)
+    {
+        _modelTypeService = modelTypeService;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<ModelTypeDto>> Get()
+    {
+        try
+        {
+            return Ok(await _modelTypeService.GetAllAsync<SpendType>());
+        }
+        catch (DbException e)
+        {
+            return BadRequest(e);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
             throw;
         }
     }
