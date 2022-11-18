@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Api.Models.Interfaces;
 
 namespace FarmerApp.Api.Models;
 

@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FarmerApp.Api.Models.Interfaces;
 
 namespace FarmerApp.Api.Models;
 
-public class Warehouse : IModelWithId
+public class Warehouse 
 {
     public int Id { get; set; }
 

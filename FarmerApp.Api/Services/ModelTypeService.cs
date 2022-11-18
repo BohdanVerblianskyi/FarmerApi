@@ -2,7 +2,7 @@
 using FarmerApp.Api.DTO;
 using FarmerApp.Api.Extensions;
 using FarmerApp.Api.Models;
-using FarmerApp.Api.Models.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmerApp.Api.Services;
