@@ -15,6 +15,7 @@ public class FarmerDbContext : DbContext
     public DbSet<WarehouseReception> WarehouseReceptions { get; set; }
     public DbSet<WithdrawalFromWarehouse> WithdrawalFromWarehouses { get; set; }
     
+    public DbSet<User> Users { get; set; }
     public DbSet<OwnResource> OwnResources { get; set; }
 
     public FarmerDbContext(DbContextOptions<FarmerDbContext> options) : base(options)
