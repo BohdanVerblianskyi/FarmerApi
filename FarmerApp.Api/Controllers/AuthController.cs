@@ -1,7 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using FarmerApp.Api.DTO;
 using FarmerApp.Api.Models;
 using FarmerApp.Api.Services;
 using FarmerApp.Api.ViewModels;
@@ -42,7 +41,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login(UserVM userVm)
     {
-        var user = await _userService.GetByPasswordAsync(userVm.Password);
+        var user = await _userService.GetByPasswordAsync(userVm);
 
         if (user == null)
         {
@@ -53,7 +52,7 @@ public class AuthController : ControllerBase
         var refreshToken = GenerateRefreshToken();
         
         SetRefreshToken(refreshToken);
-        await _userService.AddNewRefreshToken(user, refreshToken);
+        await _userService.AddNewRefreshTokenAsync(user, refreshToken);
         
         return Ok(token);
     }
@@ -79,7 +78,7 @@ public class AuthController : ControllerBase
         var newRefreshToken = GenerateRefreshToken();
         
         SetRefreshToken(newRefreshToken);
-        await _userService.AddNewRefreshToken(user,newRefreshToken);
+        await _userService.AddNewRefreshTokenAsync(user,newRefreshToken);
 
        return Ok(token); 
     }

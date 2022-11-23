@@ -13,14 +13,11 @@ public class UserService
 {
     private readonly FarmerDbContext _db;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IConfiguration _configuration;
-    public User CurrentUser;
 
-    public UserService(FarmerDbContext db, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+    public UserService(FarmerDbContext db, IHttpContextAccessor httpContextAccessor)
     {
         _db = db;
         _httpContextAccessor = httpContextAccessor;
-        _configuration = configuration;
     }
 
     public string GetMyName()
@@ -46,18 +43,26 @@ public class UserService
             Role = Role.Admin,
         });
 
+        await _db.SaveChangesAsync();
+
         return newUser.Entity;
     }
 
-    public async Task<User?> GetByPasswordAsync(string password)
+    public async Task<User?> GetByPasswordAsync(UserVM userVm)
     {
-        CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == userVm.Username);
 
-        var user = await _db.Users.FirstOrDefaultAsync(u =>
-            u.PasswordHash == passwordHash && u.PasswordSalt == passwordSalt);
+        if (user == null)
+        {
+            return null;
+        }
 
-        CurrentUser = user;
-        return user;
+        if (VerifyPasswordHash(userVm.Password, user.PasswordHash, user.PasswordSalt))
+        {
+            return user;
+        }
+
+        return null;
     }
 
     private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -76,29 +81,6 @@ public class UserService
         return computedHash.SequenceEqual(passwordHash);
     }
     
-    private string CreateToken(User user)
-    {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, "Admin")
-        };
-
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-            _configuration.GetSection("AppSettings:Token").Value));
-
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-        var token = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.Now.AddDays(1),
-            signingCredentials: credentials);
-
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return jwt;
-    }
-
     public async Task<User?> GetByRefreshToken(string? refreshToken)
     {
         var user = await _db.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
@@ -106,14 +88,15 @@ public class UserService
         return user;
     }
 
-    public async Task AddNewRefreshToken(User user,RefreshToken newRefreshToken)
+    public async Task AddNewRefreshTokenAsync(User user, RefreshToken newRefreshToken)
     {
         var refreshUser = user;
 
         refreshUser.RefreshToken = newRefreshToken.Token;
         refreshUser.TokenCreated = newRefreshToken.Created;
         refreshUser.TokenExpires = newRefreshToken.Expires;
-        
+
         _db.Users.Update(refreshUser);
+       await _db.SaveChangesAsync();
     }
 }
