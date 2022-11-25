@@ -81,7 +81,7 @@ public class UserService
         return computedHash.SequenceEqual(passwordHash);
     }
     
-    public async Task<User?> GetByRefreshToken(string? refreshToken)
+    public async Task<User?> GetByRefreshTokenAsync(string? refreshToken)
     {
         var user = await _db.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
 

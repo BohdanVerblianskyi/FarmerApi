@@ -11,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson(o => { });
 
+builder.Services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.SetMinimumLevel(LogLevel.Trace);
+});
+    
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(

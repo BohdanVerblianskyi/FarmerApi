@@ -81,4 +81,25 @@ public class WarehouseReceptionController : ControllerBase
             return BadRequest(e);
         }
     }
+
+    [HttpDelete("/{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        try
+        {
+          var deleted =  await _warehouseReceptionService.Delete(id);
+
+          if (deleted)
+          {
+              return Ok();
+          }
+
+          return NotFound();
+        }
+        catch (Exception e)
+        { 
+            return BadRequest(e);
+        }
+    }
+
 }

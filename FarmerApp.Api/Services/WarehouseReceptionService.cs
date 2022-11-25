@@ -149,4 +149,16 @@ public class WarehouseReceptionService
         await _db.SaveChangesAsync();
         return _mapper.Map<WarehouseReceptionDto>(warehouseReception.Entity);
     }
+
+    public async Task<bool> Delete(int id)
+    {
+        var user = await _db.WarehouseReceptions.FirstOrDefaultAsync(w => w.Id == id);
+        if (user != null)
+        {
+            _db.WarehouseReceptions.Remove(user);
+            return true; 
+        }
+        
+        return false;
+    }
 }

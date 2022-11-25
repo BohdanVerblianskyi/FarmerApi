@@ -62,7 +62,7 @@ public class AuthController : ControllerBase
     {
         var refreshToken = Request.Cookies["refreshToken"];
 
-        var user = await _userService.GetByRefreshToken(refreshToken);
+        var user = await _userService.GetByRefreshTokenAsync(refreshToken);
         
         if (user == null)
         {
